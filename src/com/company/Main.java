@@ -35,7 +35,8 @@ public class Main implements IClient{
         positionsList = GeoFunction.getPositionsList();
         CookieManager cookieManager = main.tryToLogin("simone", "1124");
         main.postPositions(positionsList,cookieManager);
-        /*metto un range a caso che l'utente richiede*/
+//        /*metto un range a caso che l'utente richiede*/
+
         String startTime=String.valueOf(positionsList.get(2).getTimestamp());
         String endTime = String.valueOf(positionsList.get(60).getTimestamp());
         main.getPositions(startTime, endTime, cookieManager);
@@ -57,7 +58,7 @@ public class Main implements IClient{
                 JSONObject obj = new JSONObject();
                 obj.put("latitude",positionList.get(i).getLatitude());
                 obj.put("longitude", positionList.get(i).getLongitude());
-                obj.put("temporalStamp", positionList.get(i).getTimestamp());
+                obj.put("timeStamp", positionList.get(i).getTimestamp());
                 array.put(obj);
             }
 
