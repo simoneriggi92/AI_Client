@@ -46,7 +46,7 @@ public class Main implements IClient{
     public void postPositions(ArrayList<Position>positionList,CookieManager cookieManager) {
 
         try {
-
+            //
             HttpClient client = HttpClient
                     .newBuilder()
                     .build();
