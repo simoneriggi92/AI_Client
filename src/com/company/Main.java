@@ -40,6 +40,7 @@ public class Main implements IClient{
         String startTime=String.valueOf(positionsList.get(2).getTimestamp());
         String endTime = String.valueOf(positionsList.get(60).getTimestamp());
         main.getPositions(startTime, endTime, cookieManager);
+        main.tryToLogout(cookieManager);
     }
 
     @Override
@@ -185,6 +186,49 @@ public class Main implements IClient{
                 .build();
         try {
             String url = "http://localhost:8080/rangePositions?startTimestamp="+startTimestamp+"&endTimestamp="+endTimestamp;
+
+            HttpResponse<String> response = client.send(
+                    HttpRequest
+                            .newBuilder(new URI(url))
+                            .header("Cookie", cookieManager.getCookieStore().getCookies().get(0).toString())
+                            .GET()
+                            .build(),
+                    HttpResponse.BodyHandler.asString()
+            );
+
+            System.out.println(response.statusCode());
+
+            if(response.statusCode() == 404)
+                throw new NotFoundException("Page Not Found");
+            if(response.statusCode() == 400)
+                throw new BadRequestException("Bad Request");
+            if(response.statusCode() == 403)
+                throw new ForbiddenException("Forbidden Request");
+
+            System.out.println(response.body());
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        } catch(ForbiddenException e){
+            throw new RuntimeException(e);
+        } catch (BadRequestException e){
+            throw new RuntimeException(e);
+        }catch(NotFoundException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void tryToLogout(CookieManager cookieManager)    {
+
+        HttpClient client = HttpClient
+                .newBuilder()
+                .build();
+        try {
+            String url = "http://localhost:8080/logout";
 
             HttpResponse<String> response = client.send(
                     HttpRequest
