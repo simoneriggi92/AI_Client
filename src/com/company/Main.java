@@ -10,6 +10,7 @@ import jdk.incubator.http.HttpResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import utilities.InvalidPosition;
 import utilities.Tools;
 
 import java.io.IOException;
@@ -63,8 +64,9 @@ public class Main implements IClient{
                     .newBuilder()
                     .build();
 
-      JSONArray jsonPositionList= new JSONArray(Arrays.asList(positions));
-      JSONArray array = new JSONArray();
+            ArrayList<InvalidPosition> invalidPositionsList = new ArrayList<>();
+            JSONArray jsonPositionList= new JSONArray(Arrays.asList(positions));
+            JSONArray array = new JSONArray();
 
             for(int i = 0; i < positionList.size(); i++){
                 JSONObject obj = new JSONObject();
@@ -115,9 +117,19 @@ public class Main implements IClient{
                 throw new ForbiddenException(response.version().toString()+" "+response.statusCode()+"/Forbidden Request");
             if(response.statusCode() == 302)
                 throw new ForbiddenException(response.version().toString()+" "+response.statusCode()+"/Forbidden Request: you have to login");
-            if(response.statusCode() == 202)
-                throw new AcceptException(response.version().toString()+" "+response.statusCode()+"/Some accepted positions!");
-
+            if(response.statusCode() == 202) {
+                System.out.println(response.body());
+//                Tools tools = new Tools();
+//                invalidPositionsList =tools.getInvalidPositions(response.body());
+//                for(InvalidPosition i : invalidPositionsList){
+//                    System.out.println("REJECTED: ");
+//                    System.out.println("description: wrong -> "+i.getDescription());
+//                    System.out.println("latitude"+i.getLatitude());
+//                    System.out.println("longitude"+i.getLongitude());
+//                    System.out.println("timestamo"+i.getTimeStamp());
+//                }
+                throw new AcceptException(response.version().toString() + " " + response.statusCode() + "/Some accepted positions!");
+            }
             //System.out.println(response.statusCode());
             //System.out.println(response.body());
 
