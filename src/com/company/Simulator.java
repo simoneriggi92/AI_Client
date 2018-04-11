@@ -10,6 +10,7 @@ public class Simulator {
     public static int tratto = 1;
     public static Random random = new Random();
     public static long randomNumber;
+    public static long temporaryTime = 0;
 
     public static Route simulatedRoute = new Route(
             new Position(45.06136, 7.66054),
@@ -21,6 +22,8 @@ public class Simulator {
 
     public void startSimulation(){
 
+        temporaryTime = System.currentTimeMillis()/1000;  //Example Format: 08/04/2018 - 18:08:21
+
 //        Timer timer = new Timer();
 //        timer.schedule(new TimerTask() {
 //
@@ -30,7 +33,8 @@ public class Simulator {
 
                     Position start = simulatedRoute.waypoints[x];//new Position(45.06249, 7.66220);//, date.getTime());
                     Position end = simulatedRoute.waypoints[x + 1];//new Position(45.06392, 7.65828);
-                   // System.out.println("***********     TRATTO NUM. " + tratto + "      ***********");
+                    System.out.println("***********     TRATTO NUM. " + tratto + "      ***********");
+
                     CalculateWaypoints(start, end);
                     tratto++;
                 }
@@ -47,30 +51,25 @@ public class Simulator {
         double duration = distance/speed;
         Random randomNum = new Random();
         Date date = new Date();
-        long temporaryTime = 0;
 
-//        System.out.println("DISTANCE: " + distance);
-//        System.out.println("TIME_REQ(s): "+ distance / speed);
-//        System.out.println("TIME_REQ(min): "+ (distance / speed)/60);
+        System.out.println("DISTANCE: " + distance);
+        System.out.println("TIME_REQ(s): "+ distance / speed);
+        System.out.println("TIME_REQ(min): "+ (distance / speed)/60);
 
         for(int i = 0; i < duration; i++){
             double bearing = GeoFunction.CalculateBearing(startPoint, endPoint);
             double distanceKm = speed / 1000;
 
             Position middlePoint = GeoFunction.CalculateDestinationLocationPoint(startPoint, bearing, distanceKm);
-            if(i == 0) {
-                middlePoint.setTimestamp(System.currentTimeMillis()/1000);  //Example Format: 08/04/2018 - 18:08:21
-                temporaryTime = middlePoint.getTimestamp();
-            }
-            else {
-                middlePoint.setTimestamp(temporaryTime + randomNumberInRange(0, 20));
-                temporaryTime = middlePoint.getTimestamp();
-            }
+
+            middlePoint.setTimestamp(temporaryTime + randomNumberInRange(20, 40));
+            temporaryTime = middlePoint.getTimestamp();
+
 
             points.add(middlePoint);
 
-//            System.out.println("Latidute Point: " + points.get(i).getLatitude() + " --- Longitude Point: "
-//                    + points.get(i).getLongitude() + " --- TimeStamp: " + points.get(i).getTimestamp());
+            System.out.println("Latidute Point: " + points.get(i).getLatitude() + " --- Longitude Point: "
+                    + points.get(i).getLongitude() + " --- TimeStamp: " + points.get(i).getTimestamp());
 
             startPoint = middlePoint;
         }

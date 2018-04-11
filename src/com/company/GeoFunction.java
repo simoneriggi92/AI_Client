@@ -104,16 +104,16 @@ public class GeoFunction {
 
         randomIndex = randomIntIndexInRange(1, 5, positionsList.size());  //Sostituire il max con la dimensione della lista
 
-        //45.46418, 9.19127     -->     Duomo di milano
-        positionsList.get(randomIndex).setLatitude(45.46418);
-        positionsList.get(randomIndex).setLongitude(9.19127);
-
+//        //45.46418, 9.19127     -->     Duomo di milano
+//        positionsList.get(randomIndex).setLatitude(45.46418);
+//        positionsList.get(randomIndex).setLongitude(9.19127);
+//
         randomIndex = randomIntIndexInRange(6, 10, positionsList.size()); //Sostituire il max con la dimensione della lista
         positionsList.get(randomIndex).setTimestamp(1491670668);    //GMT: Saturday, 8 April 2017 16:57:48
 
-        randomIndex = randomIntIndexInRange(11, 15, positionsList.size()); //Sostituire il max con la dimensione della lista
-        positionsList.get(randomIndex).setLatitude(91.01234);
-        positionsList.get(randomIndex).setLongitude(181.12345);
+//        randomIndex = randomIntIndexInRange(11, 15, positionsList.size()); //Sostituire il max con la dimensione della lista
+//        positionsList.get(randomIndex).setLatitude(91.01234);
+//        positionsList.get(randomIndex).setLongitude(181.12345);
 
 
         return positionsList;

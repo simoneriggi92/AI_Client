@@ -1,6 +1,5 @@
 package com.company;
 
-
 import exceptions.AcceptException;
 import exceptions.BadRequestException;
 import exceptions.ForbiddenException;
@@ -39,6 +38,7 @@ public class Main implements IClient{
 
         simulator.startSimulation();
         positionsList = GeoFunction.getPositionsList();
+        System.out.println("NUM:-------->"+positionsList.size());
         String startTime=String.valueOf(positionsList.get(2).getTimestamp());
         String endTime = String.valueOf(positionsList.get(60).getTimestamp());
 
@@ -51,7 +51,7 @@ public class Main implements IClient{
         /*GET autenticata delle posizioni*/
         main.getPositions(startTime, endTime, cookieManager);
         /*Logout*/
-        main.tryToLogout(cookieManager);
+       // main.tryToLogout(cookieManager);
     }
 
     @Override
@@ -204,7 +204,7 @@ public class Main implements IClient{
     }
 
     @Override
-    public void getPositions(String startTimestamp, String endTimestamp, CookieManager cookieManager){
+    public void getPositions(String startTimestamp, String endTimestamp, CookieManager cookieManager)   {
         HttpClient client = HttpClient
                 .newBuilder()
                 .build();
@@ -223,7 +223,7 @@ public class Main implements IClient{
             //System.out.println(response.statusCode());
 
             if(response.statusCode() == 200)
-                System.out.println(response.version().toString()+" "+response.statusCode()+"/GET");
+                System.out.println(response.version().toString()+" "+response.statusCode()+"/GET ");
             if(response.statusCode() == 404)
                 throw new NotFoundException(response.version().toString()+" "+response.statusCode()+"/Page Not Found");
             if(response.statusCode() == 400)
