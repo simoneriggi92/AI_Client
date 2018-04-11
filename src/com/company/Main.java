@@ -39,7 +39,7 @@ public class Main implements IClient{
 
         simulator.startSimulation();
         positionsList = GeoFunction.getPositionsList();
-        System.out.println("NUM:-------->"+positionsList.size());
+        //Systemm.out.println("NUM:-------->"+positionsList.size());
         String startTime=String.valueOf(positionsList.get(2).getTimestamp());
         String endTime = String.valueOf(positionsList.get(60).getTimestamp());
 

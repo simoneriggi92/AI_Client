@@ -33,7 +33,7 @@ public class Simulator {
 
                     Position start = simulatedRoute.waypoints[x];//new Position(45.06249, 7.66220);//, date.getTime());
                     Position end = simulatedRoute.waypoints[x + 1];//new Position(45.06392, 7.65828);
-                    System.out.println("***********     TRATTO NUM. " + tratto + "      ***********");
+                    //System.out.println("***********     TRATTO NUM. " + tratto + "      ***********");
 
                     CalculateWaypoints(start, end);
                     tratto++;
@@ -52,9 +52,9 @@ public class Simulator {
         Random randomNum = new Random();
         Date date = new Date();
 
-        System.out.println("DISTANCE: " + distance);
-        System.out.println("TIME_REQ(s): "+ distance / speed);
-        System.out.println("TIME_REQ(min): "+ (distance / speed)/60);
+        //System.out.println("DISTANCE: " + distance);
+        //System.out.println("TIME_REQ(s): "+ distance / speed);
+        //System.out.println("TIME_REQ(min): "+ (distance / speed)/60);
 
         for(int i = 0; i < duration; i++){
             double bearing = GeoFunction.CalculateBearing(startPoint, endPoint);
@@ -68,8 +68,8 @@ public class Simulator {
 
             points.add(middlePoint);
 
-            System.out.println("Latidute Point: " + points.get(i).getLatitude() + " --- Longitude Point: "
-                    + points.get(i).getLongitude() + " --- TimeStamp: " + points.get(i).getTimestamp());
+            //System.out.println("Latidute Point: " + points.get(i).getLatitude() + " --- Longitude Point: "
+                   // + points.get(i).getLongitude() + " --- TimeStamp: " + points.get(i).getTimestamp());
 
             startPoint = middlePoint;
         }
@@ -78,7 +78,7 @@ public class Simulator {
     public static long randomNumberInRange(long min, long max) {
 
         randomNumber = min+((long)(random.nextDouble()*(max-min)));
-        //System.out.println("Random Number: " + number);
+        ////System.out.println("Random Number: " + number);
         return randomNumber;
     }
 }
