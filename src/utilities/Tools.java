@@ -35,9 +35,9 @@ public class Tools {
            invalidList = mapper.readValue(sb, mapper
                    .getTypeFactory()
                    .constructCollectionType(List.class, InvalidPosition.class));
-           System.out.println("#Invalid positions: " + invalidList.size());
+           System.out.println("(/Client)#Invalid positions: " + invalidList.size());
            for(InvalidPosition i : invalidList){
-               System.out.println("REJECTED: ");
+               System.out.println("(/Client)REJECTED: ");
                System.out.println("description: wrong -> "+i.getDescription());
                System.out.println("latitude"+i.getLatitude());
                System.out.println("longitude"+i.getLongitude());
@@ -56,9 +56,9 @@ public class Tools {
           positionList = mapper.readValue(sb, mapper
                    .getTypeFactory()
                    .constructCollectionType(List.class, Position.class));
-           System.out.println("#Returned positions: " + positionList.size());
+           System.out.println("(/Client)#Returned positions: " + positionList.size());
            for(Position p : positionList){
-               System.out.println("POS: ");
+               System.out.println("(/Client)POS: ");
                System.out.println("latitude"+p.getLatitude());
                System.out.println("longitude"+p.getLongitude());
                System.out.println("timestamo"+p.getTimestamp());

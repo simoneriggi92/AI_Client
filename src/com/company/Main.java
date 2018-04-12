@@ -97,18 +97,18 @@ public class Main implements IClient{
             }
 
             if(response.statusCode() == 200)
-                System.out.println(response.version().toString()+" "+response.statusCode()+"/All positions accepted!");
+                System.out.println("(/Client)"+response.version().toString()+" "+response.statusCode()+"/All positions accepted!");
             if(response.statusCode() == 404)
-                throw new NotFoundException(response.version().toString()+" "+response.statusCode()+"/Page Not Found");
+                throw new NotFoundException("(/Client)"+response.version().toString()+" "+response.statusCode()+"/Page Not Found");
             if(response.statusCode() == 400)
-                throw new BadRequestException(response.version().toString()+" "+response.statusCode()+"/Bad Request: Data type is not JSON!");
+                throw new BadRequestException("(/Client)"+response.version().toString()+" "+response.statusCode()+"/Bad Request: Data type is not JSON!");
             if(response.statusCode() == 403)
-                throw new ForbiddenException(response.version().toString()+" "+response.statusCode()+"/Forbidden Request");
+                throw new ForbiddenException("(/Client)"+response.version().toString()+" "+response.statusCode()+"/Forbidden Request");
             if(response.statusCode() == 302)
-                throw new ForbiddenException(response.version().toString()+" "+response.statusCode()+"/Forbidden Request: you have to login");
+                throw new ForbiddenException("(/Client)"+response.version().toString()+" "+response.statusCode()+"/Forbidden Request: you have to login");
             if(response.statusCode() == 202) {
                 tools.mapInvalidPositions(response.body());
-                throw new AcceptException(response.version().toString() + " " + response.statusCode() + "/Some accepted positions!");
+                throw new AcceptException("(/Client)"+response.version().toString() + " " + response.statusCode() + "/Some accepted positions!");
             }
 
         } catch (IOException e) {
@@ -161,15 +161,15 @@ public class Main implements IClient{
             );
 
             if(response.statusCode() == 200)
-                System.out.println(response.version().toString()+" "+response.statusCode()+"/Login ok\nWelcome "+username+"!");
+                System.out.println("(/Client)"+response.version().toString()+" "+response.statusCode()+"/Login ok\n\"(/Client) Welcome "+username+"!");
             if(response.statusCode() == 404)
-                throw new NotFoundException(response.version().toString()+" "+response.statusCode()+"/Page Not Found");
+                throw new NotFoundException("(/Client)"+response.version().toString()+" "+response.statusCode()+"/Page Not Found");
             if(response.statusCode() == 400)
-                throw new BadRequestException(response.version().toString()+" "+response.statusCode()+"/Bad Request:Insert username or password");
+                throw new BadRequestException("(/Client)"+response.version().toString()+" "+response.statusCode()+"/Bad Request:Insert username or password");
             if(response.statusCode() == 403)
-                throw new ForbiddenException(response.version().toString()+" "+response.statusCode()+"/Forbidden Request:Login Error");
+                throw new ForbiddenException("(/Client)"+response.version().toString()+" "+response.statusCode()+"/Forbidden Request:Login Error");
             if(response.statusCode() == 302)
-                throw new ForbiddenException(response.version().toString()+" "+response.statusCode()+"/Forbidden Request: you have to login");
+                throw new ForbiddenException("(/Client)"+response.version().toString()+" "+response.statusCode()+"/Forbidden Request: you have to login");
 
             return cookieManager;
 
@@ -208,17 +208,17 @@ public class Main implements IClient{
             );
 
             if(response.statusCode() == 200) {
-                System.out.println(response.version().toString() + " " + response.statusCode() + "/GET ");
+                System.out.println("(/Client)"+response.version().toString() + " " + response.statusCode() + "/GET ");
                 tools.mapRangePositions(response.body());
             }
             if(response.statusCode() == 404)
-                throw new NotFoundException(response.version().toString()+" "+response.statusCode()+"/Page Not Found");
+                throw new NotFoundException("(/Client)"+response.version().toString()+" "+response.statusCode()+"/Page Not Found");
             if(response.statusCode() == 400)
-                throw new BadRequestException(response.version().toString()+" "+response.statusCode()+"/Bad Request: Invalid t1 or t2");
+                throw new BadRequestException("(/Client)"+response.version().toString()+" "+response.statusCode()+"/Bad Request: Invalid t1 or t2");
             if(response.statusCode() == 403)
-                throw new ForbiddenException(response.version().toString()+" "+response.statusCode()+"/Forbidden Request");
+                throw new ForbiddenException("(/Client)"+response.version().toString()+" "+response.statusCode()+"/Forbidden Request");
             if(response.statusCode() == 302)
-                throw new ForbiddenException(response.version().toString()+" "+response.statusCode()+"/Forbidden Request: you have to login");
+                throw new ForbiddenException("(/Client)"+response.version().toString()+" "+response.statusCode()+"/Forbidden Request: you have to login");
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -254,13 +254,13 @@ public class Main implements IClient{
             );
 
             if(response.statusCode() == 200)
-                System.out.println(response.version().toString()+" "+response.statusCode()+"/Logout successful");
+                System.out.println("(/Client)"+response.version().toString()+" "+response.statusCode()+"/Logout successful");
             if(response.statusCode() == 404)
-                throw new NotFoundException(response.version().toString()+" "+response.statusCode()+"/Page Not Found");
+                throw new NotFoundException("(/Client)"+response.version().toString()+" "+response.statusCode()+"/Page Not Found");
             if(response.statusCode() == 400)
-                throw new BadRequestException(response.version().toString()+" "+response.statusCode()+"/Bad Request");
+                throw new BadRequestException("(/Client)"+response.version().toString()+" "+response.statusCode()+"/Bad Request");
             if(response.statusCode() == 403)
-                throw new ForbiddenException(response.version().toString()+" "+response.statusCode()+"/Forbidden Request");
+                throw new ForbiddenException("(/Client)"+response.version().toString()+" "+response.statusCode()+"/Forbidden Request");
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -296,15 +296,15 @@ public class Main implements IClient{
             );
 
             if(response.statusCode() == 404)
-                throw new NotFoundException(response.version().toString()+" "+response.statusCode()+"/Page Not Found");
+                throw new NotFoundException("(/Client)"+response.version().toString()+" "+response.statusCode()+"/Page Not Found");
             if(response.statusCode() == 400)
-                throw new BadRequestException(response.version().toString()+" "+response.statusCode()+"/Bad Request");
+                throw new BadRequestException("(/Client)"+response.version().toString()+" "+response.statusCode()+"/Bad Request");
             if(response.statusCode() == 403)
-                throw new ForbiddenException(response.version().toString()+" "+response.statusCode()+"/Forbidden Request");
+                throw new ForbiddenException("(/Client)"+response.version().toString()+" "+response.statusCode()+"/Forbidden Request");
             if(response.statusCode() == 302)
-                throw new ForbiddenException(response.version().toString()+" "+response.statusCode()+"/Forbidden Request: you have to login");
+                throw new ForbiddenException("(/Client)"+response.version().toString()+" "+response.statusCode()+"/Forbidden Request: you have to login");
 
-            System.out.println(response.body());
+            System.out.println("\n\n"+response.body());
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -323,14 +323,14 @@ public class Main implements IClient{
 
 
     public void combo1(ArrayList<Position>positionList, CookieManager cookieManager, String startTime, String endTime){
-        System.out.println("Starting #COMBO1..");
+        System.out.println("\n\n\"(/Client)Starting #COMBO1..");
         tryToGetPositions(startTime, endTime);
         postPositions(positionList, cookieManager);
     }
 
     public void combo2(String username, String password, ArrayList<Position>positionList, String startTime, String endTime){
 
-        System.out.println("Starting #COMBO2..");
+        System.out.println("\n\n\"(/Client)Starting #COMBO2..");
 
         /*Tentativo di login*/
          CookieManager cookieManager = tryToLogin(username, password);
