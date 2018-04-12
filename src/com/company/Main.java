@@ -10,7 +10,6 @@ import jdk.incubator.http.HttpResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import utilities.InvalidPosition;
 import utilities.Tools;
 
 import java.io.IOException;
@@ -44,20 +43,15 @@ public class Main implements IClient{
         String startTime=String.valueOf(positionsList.get(2).getTimestamp());
         String endTime = String.valueOf(positionsList.get(60).getTimestamp());
 
-        /*Tentativo non autenticato di accedere alle posizioni*/
-        main.TryToGetPositions(startTime, endTime);
-        /*Tentativo di login*/
-        CookieManager cookieManager = main.tryToLogin(username, password);
-        /*POST delle posizioni(vettore di posizioni JSON)*/
-        main.postPositions(positionsList,cookieManager);
-        /*GET autenticata delle posizioni*/
-        main.getPositions(startTime, endTime, cookieManager);
-        /*Logout*/
-       // main.tryToLogout(cookieManager);
+        /*COMBO FORBIDDEN*/
+        main.combo1(positionsList, null, startTime, endTime);
+        /*COMBO OK*/
+        main.combo2(username, password, positionsList,startTime, endTime );
     }
 
     @Override
     public void postPositions(ArrayList<Position>positionList,CookieManager cookieManager) {
+
 
         try {
             //
@@ -65,7 +59,6 @@ public class Main implements IClient{
                     .newBuilder()
                     .build();
 
-            List<InvalidPosition> invalidList;
             JSONArray jsonPositionList= new JSONArray(Arrays.asList(positions));
             JSONArray array = new JSONArray();
 
@@ -78,18 +71,30 @@ public class Main implements IClient{
             }
 
             String url = "http://localhost:8080/position";
+            HttpResponse<String> response;
+            if(cookieManager != null) {
 
-            HttpResponse<String> response = client.send(
-                    HttpRequest
-                            .newBuilder(new URI(url))
-                            .header("Cookie", cookieManager.getCookieStore().getCookies().get(0).toString())
-                            .header("Content-Type", "application/json")
-                            .header("Accept", "application/json")
-                            .POST(HttpRequest.BodyProcessor.fromString(array.toString()))
-                            .build(),
-                    HttpResponse.BodyHandler.asString()
-            );
-
+                 response = client.send(
+                        HttpRequest
+                                .newBuilder(new URI(url))
+                                .header("Cookie", cookieManager.getCookieStore().getCookies().get(0).toString())
+                                .header("Content-Type", "application/json")
+                                .header("Accept", "application/json")
+                                .POST(HttpRequest.BodyProcessor.fromString(array.toString()))
+                                .build(),
+                        HttpResponse.BodyHandler.asString()
+                );
+            }else{
+                 response = client.send(
+                        HttpRequest
+                                .newBuilder(new URI(url))
+                                .header("Content-Type", "application/json")
+                                .header("Accept", "application/json")
+                                .POST(HttpRequest.BodyProcessor.fromString(array.toString()))
+                                .build(),
+                        HttpResponse.BodyHandler.asString()
+                );
+            }
 
             if(response.statusCode() == 200)
                 System.out.println(response.version().toString()+" "+response.statusCode()+"/All positions accepted!");
@@ -102,8 +107,7 @@ public class Main implements IClient{
             if(response.statusCode() == 302)
                 throw new ForbiddenException(response.version().toString()+" "+response.statusCode()+"/Forbidden Request: you have to login");
             if(response.statusCode() == 202) {
-                //System.out.println(response.body());
-                invalidList = tools.mapInvalidPositions(response.body());
+                tools.mapInvalidPositions(response.body());
                 throw new AcceptException(response.version().toString() + " " + response.statusCode() + "/Some accepted positions!");
             }
 
@@ -125,6 +129,7 @@ public class Main implements IClient{
             System.out.println(e.getMessage());
         }
     }
+
 
     @Override
     public CookieManager tryToLogin(String username, String password){
@@ -186,7 +191,6 @@ public class Main implements IClient{
 
     @Override
     public void getPositions(String startTimestamp, String endTimestamp, CookieManager cookieManager)   {
-        List<Position> rangeList;
 
         HttpClient client = HttpClient
                 .newBuilder()
@@ -205,7 +209,7 @@ public class Main implements IClient{
 
             if(response.statusCode() == 200) {
                 System.out.println(response.version().toString() + " " + response.statusCode() + "/GET ");
-                rangeList = tools.mapRangePositions(response.body());
+                tools.mapRangePositions(response.body());
             }
             if(response.statusCode() == 404)
                 throw new NotFoundException(response.version().toString()+" "+response.statusCode()+"/Page Not Found");
@@ -275,7 +279,7 @@ public class Main implements IClient{
     }
 
     @Override
-    public void TryToGetPositions(String startTimestamp, String endTimestamp){
+    public void tryToGetPositions(String startTimestamp, String endTimestamp){
 
         HttpClient client = HttpClient
                 .newBuilder()
@@ -315,6 +319,27 @@ public class Main implements IClient{
         }catch(NotFoundException e){
             System.out.println(e.getMessage());
         }
+    }
+
+
+    public void combo1(ArrayList<Position>positionList, CookieManager cookieManager, String startTime, String endTime){
+        System.out.println("Starting #COMBO1..");
+        tryToGetPositions(startTime, endTime);
+        postPositions(positionList, cookieManager);
+    }
+
+    public void combo2(String username, String password, ArrayList<Position>positionList, String startTime, String endTime){
+
+        System.out.println("Starting #COMBO2..");
+
+        /*Tentativo di login*/
+         CookieManager cookieManager = tryToLogin(username, password);
+        /*POST delle posizioni(vettore di posizioni JSON)*/
+        postPositions(positionList,cookieManager);
+        /*GET autenticata delle posizioni*/
+        getPositions(startTime, endTime, cookieManager);
+        /*Logout*/
+        tryToLogout(cookieManager);
     }
 
 }

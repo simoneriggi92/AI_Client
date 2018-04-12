@@ -27,7 +27,7 @@ public class Tools {
 
     }
 
-   public List<InvalidPosition> mapInvalidPositions(String sb) {
+   public void mapInvalidPositions(String sb) {
        List<InvalidPosition> invalidList = null;
        ObjectMapper mapper = new ObjectMapper();
 
@@ -46,10 +46,9 @@ public class Tools {
        } catch (IOException e) {
            e.printStackTrace();
        }
-       return invalidList;
     }
 
-   public List<Position> mapRangePositions(String sb){
+   public void mapRangePositions(String sb){
        List<Position> positionList = null;
        ObjectMapper mapper = new ObjectMapper();
 
@@ -67,6 +66,6 @@ public class Tools {
        } catch (IOException e) {
            e.printStackTrace();
        }
-       return positionList;
    }
+
 }

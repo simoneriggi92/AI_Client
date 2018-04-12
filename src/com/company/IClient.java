@@ -9,5 +9,5 @@ public interface IClient {
    public void postPositions(ArrayList<Position> positionList, CookieManager cookieManager);
    public void getPositions(String startTimestamp, String endTimeStamp, CookieManager cookieManager);
    public void tryToLogout(CookieManager cookieManager);
-   public void TryToGetPositions(String startTimestamp, String endTimestamp);
+   public void tryToGetPositions(String startTimestamp, String endTimestamp);
 }
