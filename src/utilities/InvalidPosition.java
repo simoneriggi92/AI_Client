@@ -7,6 +7,8 @@ public class InvalidPosition {
     private long timeStamp;
     private String description;
 
+    public InvalidPosition(){ }
+
     public InvalidPosition(double latitude, double longitude, long timeStamp, String description) {
         setLatitude(latitude);
         setLongitude(longitude);
@@ -14,9 +16,8 @@ public class InvalidPosition {
         setDescription(description);
     }
 
-    public double getLatitude() {
-        return latitude;
-    }
+
+    public double getLatitude() { return latitude; }
 
     public void setLatitude(double latitude) {
         this.latitude = latitude;

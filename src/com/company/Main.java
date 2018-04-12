@@ -26,6 +26,7 @@ import java.util.List;
 public class Main implements IClient{
 
     private List positions;
+    Tools tools = new Tools();
 
     public static void main(String[] args) throws RuntimeException {
 
@@ -64,7 +65,7 @@ public class Main implements IClient{
                     .newBuilder()
                     .build();
 
-            ArrayList<InvalidPosition> invalidPositionsList = new ArrayList<>();
+            List<InvalidPosition> invalidList;
             JSONArray jsonPositionList= new JSONArray(Arrays.asList(positions));
             JSONArray array = new JSONArray();
 
@@ -75,23 +76,6 @@ public class Main implements IClient{
                 obj.put("timeStamp", positionList.get(i).getTimestamp());
                 array.put(obj);
             }
-
-            //Syste m.out.println("JSON:"+array);
-//            String charset = "UTF-8";
-//            String param1 = "90";
-//            String param2 = "45";
-//            String param3="123455";
-//            json.put("latitude", param1);
-//            json.put("longitude", param2);
-//            json.put("temporalStamp", param3);
-//            json.put("latitude", "23");
-//            json.put("longitude", "56");
-//            json.put("temporalStamp", "58");
-            //mJSONArray = new JSONArray(Arrays.asList(mybeanList));
-           // System.out.println("" +json.toString());
-//            String query = String.format("latitude=%s&longitude=%s",
-//                    URLEncoder.encode(param1, charset),
-//                    URLEncoder.encode(param2, charset));
 
             String url = "http://localhost:8080/position";
 
@@ -118,21 +102,10 @@ public class Main implements IClient{
             if(response.statusCode() == 302)
                 throw new ForbiddenException(response.version().toString()+" "+response.statusCode()+"/Forbidden Request: you have to login");
             if(response.statusCode() == 202) {
-                System.out.println(response.body());
-//                Tools tools = new Tools();
-//                invalidPositionsList =tools.getInvalidPositions(response.body());
-//                for(InvalidPosition i : invalidPositionsList){
-//                    System.out.println("REJECTED: ");
-//                    System.out.println("description: wrong -> "+i.getDescription());
-//                    System.out.println("latitude"+i.getLatitude());
-//                    System.out.println("longitude"+i.getLongitude());
-//                    System.out.println("timestamo"+i.getTimeStamp());
-//                }
+                //System.out.println(response.body());
+                invalidList = tools.mapInvalidPositions(response.body());
                 throw new AcceptException(response.version().toString() + " " + response.statusCode() + "/Some accepted positions!");
             }
-            //System.out.println(response.statusCode());
-            //System.out.println(response.body());
-
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -182,8 +155,6 @@ public class Main implements IClient{
                     HttpResponse.BodyHandler.asString()
             );
 
-            //System.out.println(response.statusCode());
-
             if(response.statusCode() == 200)
                 System.out.println(response.version().toString()+" "+response.statusCode()+"/Login ok\nWelcome "+username+"!");
             if(response.statusCode() == 404)
@@ -195,8 +166,6 @@ public class Main implements IClient{
             if(response.statusCode() == 302)
                 throw new ForbiddenException(response.version().toString()+" "+response.statusCode()+"/Forbidden Request: you have to login");
 
-//            System.out.println(response.statusCode());
-//            System.out.println(response.body());
             return cookieManager;
 
         } catch (IOException e) {
@@ -217,6 +186,8 @@ public class Main implements IClient{
 
     @Override
     public void getPositions(String startTimestamp, String endTimestamp, CookieManager cookieManager)   {
+        List<Position> rangeList;
+
         HttpClient client = HttpClient
                 .newBuilder()
                 .build();
@@ -232,10 +203,10 @@ public class Main implements IClient{
                     HttpResponse.BodyHandler.asString()
             );
 
-            //System.out.println(response.statusCode());
-
-            if(response.statusCode() == 200)
-                System.out.println(response.version().toString()+" "+response.statusCode()+"/GET ");
+            if(response.statusCode() == 200) {
+                System.out.println(response.version().toString() + " " + response.statusCode() + "/GET ");
+                rangeList = tools.mapRangePositions(response.body());
+            }
             if(response.statusCode() == 404)
                 throw new NotFoundException(response.version().toString()+" "+response.statusCode()+"/Page Not Found");
             if(response.statusCode() == 400)
@@ -244,8 +215,6 @@ public class Main implements IClient{
                 throw new ForbiddenException(response.version().toString()+" "+response.statusCode()+"/Forbidden Request");
             if(response.statusCode() == 302)
                 throw new ForbiddenException(response.version().toString()+" "+response.statusCode()+"/Forbidden Request: you have to login");
-
-            System.out.println(response.body());
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -289,8 +258,6 @@ public class Main implements IClient{
             if(response.statusCode() == 403)
                 throw new ForbiddenException(response.version().toString()+" "+response.statusCode()+"/Forbidden Request");
 
-            //System.out.println(response.body());
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
@@ -323,8 +290,6 @@ public class Main implements IClient{
                             .build(),
                     HttpResponse.BodyHandler.asString()
             );
-
-            //System.out.println(response.statusCode());
 
             if(response.statusCode() == 404)
                 throw new NotFoundException(response.version().toString()+" "+response.statusCode()+"/Page Not Found");
