@@ -4,15 +4,15 @@ public class InvalidPosition {
 
     private double latitude;
     private double longitude;
-    private long timeStamp;
+    private long timestamp;
     private String description;
 
     public InvalidPosition(){ }
 
-    public InvalidPosition(double latitude, double longitude, long timeStamp, String description) {
+    public InvalidPosition(double latitude, double longitude, long timestamp, String description) {
         setLatitude(latitude);
         setLongitude(longitude);
-        setTimeStamp(timeStamp);
+        setTimestamp(timestamp);
         setDescription(description);
     }
 
@@ -31,12 +31,12 @@ public class InvalidPosition {
         this.longitude = longitude;
     }
 
-    public long getTimeStamp() {
-        return timeStamp;
+    public long getTimestamp() {
+        return timestamp;
     }
 
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
     public void setDescription(String description){this.description = description;}

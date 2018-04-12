@@ -80,7 +80,7 @@ public class GeoFunction {
                 Math.cos(distance) - Math.sin(lat1) * Math.sin(lat2));
         lon2 = (lon2 + 3 * Math.PI) % (2 * Math.PI) - Math.PI; // normalize to -180 - + 180 degrees
 
-        return new Position(Math.toDegrees(lat2), Math.toDegrees(lon2));
+        return new Position(Math.toDegrees(lat2), Math.toDegrees(lon2)  );
     }
 
 

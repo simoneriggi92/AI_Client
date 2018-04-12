@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Tools {
@@ -41,7 +42,7 @@ public class Tools {
                System.out.println("description: wrong -> "+i.getDescription());
                System.out.println("latitude"+i.getLatitude());
                System.out.println("longitude"+i.getLongitude());
-               System.out.println("timestamo"+i.getTimeStamp());
+               System.out.println("timestamp"+i.getTimestamp());
            }
        } catch (IOException e) {
            e.printStackTrace();
@@ -49,19 +50,20 @@ public class Tools {
     }
 
    public void mapRangePositions(String sb){
-       List<Position> positionList = null;
+       ArrayList<Position> positionList = null;
        ObjectMapper mapper = new ObjectMapper();
 
        try {
+
           positionList = mapper.readValue(sb, mapper
                    .getTypeFactory()
-                   .constructCollectionType(List.class, Position.class));
+                   .constructCollectionType(ArrayList.class, Position.class));
            System.out.println("(/Client)#Returned positions: " + positionList.size());
            for(Position p : positionList){
                System.out.println("(/Client)POS: ");
                System.out.println("latitude"+p.getLatitude());
                System.out.println("longitude"+p.getLongitude());
-               System.out.println("timestamo"+p.getTimestamp());
+               System.out.println("timestamp"+p.getTimestamp());
            }
        } catch (IOException e) {
            e.printStackTrace();

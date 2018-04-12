@@ -66,7 +66,7 @@ public class Main implements IClient{
                 JSONObject obj = new JSONObject();
                 obj.put("latitude",positionList.get(i).getLatitude());
                 obj.put("longitude", positionList.get(i).getLongitude());
-                obj.put("timeStamp", positionList.get(i).getTimestamp());
+                obj.put("timestamp", positionList.get(i).getTimestamp());
                 array.put(obj);
             }
 

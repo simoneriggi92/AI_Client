@@ -19,15 +19,19 @@ public class Position {
     private double longitude;
     private long timestamp;
 
-//    public Position(double latitude, double longitude, long timestamp){
-//        this.latitude = latitude;
-//        this.longitude = longitude;
-//        this.timestamp = timestamp;
-//    }
+    public Position() {}
+
+    public Position(double latitude, double longitude, long timestamp){
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.timestamp = timestamp;
+    }
+
 
     public Position(double latitude, double longitude){
         this.latitude = latitude;
         this.longitude = longitude;
+
     }
 
     public double getLatitude(){
